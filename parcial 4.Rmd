@@ -17,21 +17,57 @@ output:
     
 ---
 
-library("descr")
-library("ggplot2")
-set.seed("27811")
-datos=data.frame(Blackfriday)
+
+```{r echo=FALSE}
+set.seed(27811)
+library(dplyr,warn.conflicts = FALSE)
+library(modeest,warn.conflicts = FALSE)
+library(descr, warn.conflicts = FALSE)
+library(ggplot2, warn.conflicts = FALSE)
+library(kableExtra, warn.conflicts = FALSE)
+library(moments, warn.conflicts =  FALSE)
+library(plotrix,warn.conflicts =  FALSE)
+library(readxl,warn.conflicts =  FALSE)
+library(plotly,warn.conflicts = FALSE)
+```
+# Actividad 1
+## Punto a 
+ Crear una muestra aleatoria de tamaño 120 
+```{r}
+#primero leemos el excel y lo guardamos en un data frame en este caso :
+Blackfriday=data.frame(read_xlsx("C:/Users/alejo/Downloads/Blackfriday.xlsx"))
+#Despues establecemos el tamaño de la muestra y con ese tamaño usamos la funcion sample :
 n=120
-muestra=sample(1:nrow(datos),size=n,replace=FALSE)
-datosfinales=datos[muestra, ]
+muestra=sample(1:nrow(Blackfriday),size=n,replace=FALSE)
+#Finalmente relacionamos nuestra muestra con los datos obtenidos del excel:
+datosfinales = Blackfriday[muestra, ]
 datosfinales
+```
+ 
+## punto b
+### gender
+```{r}
+datosproblema=data.frame(table(datosfinales$Gender))
+datosproblema
+valores= datosproblema$Freq
+nombres_porcentajes=c("Mujer","Hombre")
+porcentajes <- (valores / sum(valores)) * 100
+colores <- c("#3498db", "#e74c3c")
+plot_ly(labels = nombres_porcentajes, values = porcentajes, type = "pie",
+        textinfo = "label+percent", text = datosproblema$Var1 , marker = list(colors = colores)) %>%
+  layout(title = list(font="Porcentajes de Estado del credito"),
+         showlegend = FALSE,  # Ocultar la leyenda
+         margin = list(l = 20, r = 0, b = 0, t = 30),  # Ajustar márgenes
+         paper_bgcolor = "white",  # Fondo blanco
+         plot_bgcolor = "white",  # Fondo blanco
+         font = list(family = "Arial", size = 14),  # Fuente y tamaño de texto
+         titlefont = list(size = 18),  # Tamaño del título
+         annotations = list(text = "Fuente: Datos de ejemplo", showarrow = FALSE,
+                            x = 0.8, y = -0.15))  # Nota de fuente
 
-
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Actividad 1
+### city_category
+### income 
 # Actividad 2
 # Actividad 3 
