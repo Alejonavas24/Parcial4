@@ -67,6 +67,10 @@ plot_ly(labels = nombres_porcentajes, values = porcentajes, type = "pie",
 
 ```
 
+
+Al ser una vaariable cualitativa no podemos obtener sus medidas de tendencia central, sin embargo como se vera mas a delante la usaremos para generar grupos de datos y asi hacer su respectivo analisis 
+
+
 ### city_category
 
 ```{r}
@@ -91,7 +95,7 @@ plot_ly(labels = nombres_porcentajes, values = datosproblema$Freq, type = "pie",
 ```
 
 ### income 
-
+ 
 ```{r}
 datosproblema=datosfinales$Income
 Media_Datos=median(datosproblema)
@@ -112,6 +116,36 @@ g1
 #boxplot(datosproblema, col="#BF89FF",xlab="Habitantes",ylab="Edad")
 #stripchart(datosproblema, method = "jitter", pch = 19, add = TRUE, col = "blue")
 ```
+### Punto c 
+primero cacularemos la media y desviacion estandar de la poblacion general 
+
+```{r echo=FALSE}
+media_poblacion=mean(Blackfriday$Purchase)
+cat("La media de la poblacion es:",media_poblacion)
+```
+```{r echo=FALSE}
+desviacion_Estandar_poblacion=sd(Blackfriday$Purchase)
+cat("La desviacion estandar de la poblacion es:",desviacion_Estandar_poblacion)
+```
+
+Ahora calcularemos la media y desviacion estandar de la muestra 
+
+```{r echo=FALSE}
+media_muestra=mean(datosfinales$Purchase)
+
+cat("La media de la muestra  es:",media_muestra)
+```
+```{r echo=FALSE}
+desviacion_Estandar_muestra=sd(datosfinales$Purchase)
+cat("La desviacion estandar de la muestra es:",desviacion_Estandar_muestra)
+```
+
+En situiaciones como estas el estimador es la MUESTRA, esto debido a que normalmente se desconocen todos los datos de l apoblacion, por lo cual se toma una muestra lo suficientemente grande para obtener los datos mas cercanos posibles desconociendo la totalidad de los datos de la poblacion 
+
+
+Ahora miraremos la probabilidad de que la variable media muestral sea mayor o igual que el valor de la
+poblacional.
+
 
 # Actividad 2
 # Actividad 3 
