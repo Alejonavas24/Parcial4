@@ -35,7 +35,7 @@ library(plotly,warn.conflicts = FALSE)
  Crear una muestra aleatoria de tamaño 120 
 ```{r}
 #primero leemos el excel y lo guardamos en un data frame en este caso :
-Blackfriday=data.frame(read_xlsx("C:/Users/alejo/Downloads/Blackfriday.xlsx"))
+Blackfriday=data.frame(read_xlsx("C:/Users/alejo/Desktop/Blackfriday.xlsx"))
 #Despues establecemos el tamaño de la muestra y con ese tamaño usamos la funcion sample :
 n=120
 muestra=sample(1:nrow(Blackfriday),size=n,replace=FALSE)
@@ -55,7 +55,7 @@ porcentajes <- (valores / sum(valores)) * 100
 colores <- c("#3498db", "#e74c3c")
 plot_ly(labels = nombres_porcentajes, values = porcentajes, type = "pie",
         textinfo = "label+percent", text = datosproblema$Var1 , marker = list(colors = colores)) %>%
-  layout(title = list(font="Porcentajes de Estado del credito"),
+  layout(title = list(font="Porcentajes Entre Hombre y Mujer"),
          showlegend = FALSE,  # Ocultar la leyenda
          margin = list(l = 20, r = 0, b = 0, t = 30),  # Ajustar márgenes
          paper_bgcolor = "white",  # Fondo blanco
@@ -68,6 +68,50 @@ plot_ly(labels = nombres_porcentajes, values = porcentajes, type = "pie",
 ```
 
 ### city_category
+
+```{r}
+datosproblema=data.frame(table(datosfinales$City_Category))
+datosproblema
+valores= datosproblema$Freq
+nombres_porcentajes=c("CITY A","CITY B","CITY C")
+porcentajes <- (valores / sum(valores)) * 100
+colores <- c("#BFCDFF", "#E4FFBF","#B8FFD9")
+plot_ly(labels = nombres_porcentajes, values = datosproblema$Freq, type = "pie",
+        textinfo = "label+percent", text = datosproblema$Var1 , marker = list(colors = colores)) %>%
+  layout(title = list(font="Porcentajes de ciudades en la muestra"),
+         showlegend = FALSE,  # Ocultar la leyenda
+         margin = list(l = 20, r = 0, b = 0, t = 30),  # Ajustar márgenes
+         paper_bgcolor = "white",  # Fondo blanco
+         plot_bgcolor = "white",  # Fondo blanco
+         font = list(family = "Arial", size = 14),  # Fuente y tamaño de texto
+         titlefont = list(size = 18),  # Tamaño del título
+         annotations = list(text = "Fuente: Datos de ejemplo", showarrow = FALSE,
+                            x = 0.8, y = -0.15))  # Nota de fuente
+
+```
+
 ### income 
+
+```{r}
+datosproblema=datosfinales$Income
+Media_Datos=median(datosproblema)
+Moda=mfv(datosproblema)
+Promedio=mean(datosproblema)
+
+
+Moda
+
+#hist(datosproblema)
+g1 = ggplot(data = data.frame(datosproblema),mapping = aes(x = datosproblema)) +
+  geom_histogram(bins = 20,colour="white",fill="#FFEA89")+
+            labs(title = "Histograma income", y ="Cantidad") +
+            geom_vline(aes(xintercept= Promedio ,color ="MEDIA"),linetype = "dashed",linewidth = 0.5) +
+            geom_vline(aes(xintercept= Media_Datos,color = "MEDIANA"),linetype = "dashed",linewidth = 1) + 
+           scale_color_manual(name = "Informacion",values = c(MEDIANA ="blue" ,MEDIA = "red",MODA ="purple"))
+g1
+#boxplot(datosproblema, col="#BF89FF",xlab="Habitantes",ylab="Edad")
+#stripchart(datosproblema, method = "jitter", pch = 19, add = TRUE, col = "blue")
+```
+
 # Actividad 2
 # Actividad 3 
