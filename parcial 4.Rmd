@@ -29,9 +29,7 @@ library(moments, warn.conflicts =  FALSE)
 library(plotrix, warn.conflicts =  FALSE)
 library(readxl, warn.conflicts =  FALSE)
 library(plotly, warn.conflicts = FALSE)
-
 library(tseries, warn.conflicts = FALSE)
-library(fImport, warn.conflicts = FALSE)
 library(cowplot, warn.conflicts = FALSE)
 ```
 # Actividad 1
@@ -181,9 +179,19 @@ Ahora caalcularemos la courtosis :
 
 ```{r}
 curti=kurtosis(datosfinales$Purchase)
-curti
+cat("la curtosis de la variable purchasae de la muestra aes: ",curti)
 
 ```
+Esta curtosis positiva nos indica que la distribucion es elevada, sin embargo el resultado es apenas notable comparado con la distribucion normal 
+
+Ahora calcularemos la asimetria con la funcion skewness
+```{r}
+  datosproblema=datosfinales$Purchase
+asimetria=skewness(datosproblema)
+cat("la asimetria da :",asimetria)
+
+```
+Lo cual nos indica que tiene un sesgo muy pequeño hacia la derecha 
 
 
 # Actividad 2
