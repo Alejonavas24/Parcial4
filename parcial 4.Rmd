@@ -98,6 +98,7 @@ plot_ly(labels = nombres_porcentajes, values = datosproblema$Freq, type = "pie",
 
 ```
 
+
 ### income 
  
 ```{r}
@@ -117,6 +118,45 @@ g1
 #boxplot(datosproblema, col="#BF89FF",xlab="Habitantes",ylab="Edad")
 #stripchart(datosproblema, method = "jitter", pch = 19, add = TRUE, col = "blue")
 ```
+
+Ahora podrmos sacar las medidas de tendencia central
+
+```{r}
+cat("la media de los datos es", Media_Datos)
+
+```
+```{r}
+cat("El promedio de los datos es",Promedio)
+```
+```{r}
+cat("los valores que mas se repiten o la moda es:",Moda)
+
+```
+Esto significa que no hay un solo dato que se repita mas veces que los demas, esa es kla razon de que aparezcan varios datos como moda 
+
+Tambien podemos ver su grafico de dispercion 
+```{r}
+plot(datosproblema,col="green",xlab="Personas",ylab="Income")
+```
+
+Ahora bien teniendo en cuenta que las primeras dos son variables cualitativas vamos a hacer un pequeño analisis usando estas variables para agrupar los datos de la variable Income 
+
+Aca podemos ver una compraracion entre las medias de los income agrupados entre generos F Y M
+```{r}
+MediEstado= table(datosfinales %>% group_by(Gender=Gender) %>% summarise(MediaAritmetica=mean(Income)))
+MediEstado
+barplot(MediEstado,
+        main="Comparacion entre medias ingresos",          #C) Título principal     
+        xlab="Agrupacion por generos",                   #D) Tíulo del eje X
+        ylab="",                   #E) Título del eje Y
+        legend = rownames(MediEstado),
+         ylim = c(0, 1.5),
+        col=c("#EAFF8B","#BEFFF2")
+        )
+
+```
+
+Con la grafica enterior podemos ver que no existe una gran diferencia en la media de ingresos por generos 
 ### Punto C 
 primero cacularemos la media y desviacion estandar de la poblacion general 
 
