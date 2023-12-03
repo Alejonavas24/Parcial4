@@ -31,14 +31,15 @@ library(readxl, warn.conflicts =  FALSE)
 library(plotly, warn.conflicts = FALSE)
 library(tseries, warn.conflicts = FALSE)
 library(cowplot, warn.conflicts = FALSE)
+library(devtools, warn.conflicts = FALSE)
 ```
 # Actividad 1
 ## Punto A 
  Crear una muestra aleatoria de tamaño 120 
 ```{r}
 #primero leemos el excel y lo guardamos en un data frame en este caso :
-Blackfriday=data.frame(read_xlsx("C:/Users/kevin/Desktop/Clases/2023-2/Ingesoft2/IT/Parcial4/Blackfriday.xlsx"))
-#Despues establecemos el tamaño de la muestra y con ese tamaño usamos la funcion sample :
+Blackfriday=data.frame(read_xlsx("C:/Users/alejo/Desktop/Blackfriday.xlsx"))
+#Despues establecemos el tamaño de la muestra y con ese tamaño usamos la funcion sample:
 n=120
 muestra=sample(1:nrow(Blackfriday),size=n,replace=FALSE)
 #Finalmente relacionamos nuestra muestra con los datos obtenidos del excel:
@@ -294,6 +295,8 @@ Con un nivel de significancia del 5% se puede decir que la diferencia entre el p
 
 Calcularemos un intervalo de confianza de una cola para las varianzas de la muestra de compras masculino y femenino.
 ```{r}
+if (!require('devtools')) install.packages('devtools')
+devtools::install_github('fhernanb/stests', force=TRUE)
 
 var.test(c(sdcompraspromM,sdcompraspromF)) 
 ```
