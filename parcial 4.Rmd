@@ -37,7 +37,7 @@ library(cowplot, warn.conflicts = FALSE)
  Crear una muestra aleatoria de tamaño 120 
 ```{r}
 #primero leemos el excel y lo guardamos en un data frame en este caso :
-Blackfriday=data.frame(read_xlsx("C:/Users/alejo/Desktop/Blackfriday.xlsx"))
+Blackfriday=data.frame(read_xlsx("C:/Users/kevin/Desktop/Clases/2023-2/Ingesoft2/IT/Parcial4/Blackfriday.xlsx"))
 #Despues establecemos el tamaño de la muestra y con ese tamaño usamos la funcion sample :
 n=120
 muestra=sample(1:nrow(Blackfriday),size=n,replace=FALSE)
@@ -203,4 +203,120 @@ x
 ```
 
 # Actividad 2
-# Actividad 3 
+# Actividad 3
+
+## Punto A
+
+La hipotesis nula se plantea como:
+u es menor o igual a el valor real encontrado en la población
+
+La hipotesis alternativa se plantea como:
+u es mayor a el valor real encontrado en la población 
+
+```{r}
+#poblacion
+media_poblacion
+desviacion_Estandar_poblacion
+#muestra
+media_muestra
+desviacion_Estandar_muestra
+
+formz3A=(media_muestra-media_poblacion)/(desviacion_Estandar_muestra/sqrt(120))
+pnorm(formz3A)
+```
+El valor de 0.8392467 cae dentro de la región de aceptación de la hipotesis nula, por lo tanto se puede decir que el el valor u es menor o igual al valor real encontrado en la población, por lo tanto se puede decir que las personas compran menos que el valor promedio.
+
+## Punto B
+
+```{r}
+muestraP3 <- subset(Blackfriday,select=c(Gender,Purchase))
+#tamaño de la muestrs 120
+n=120
+#se extraen los datos de la población femenina
+PoblacionF <- subset(muestraP3,Gender=="F")
+muestraF <- sample(PoblacionF$Purchase,size=n,replace=FALSE,prob=NULL)
+comprasPromF <- mean(PoblacionF$Purchase)
+PromMuestraF <- mean(muestraF)
+sdcompraspromF <- sd(PoblacionF$Purchase)
+sdPromMuestraF <- sd(muestraF)
+#se extraen los datos de la población masculina
+PoblacionM <- subset(muestraP3,Gender=="M")
+muestraM <- sample(PoblacionM$Purchase,size=n,replace=FALSE,prob=NULL)
+ComprasPromM <- mean(PoblacionM$Purchase)
+PromMMuestra <- mean(muestraM)
+sdcompraspromM <- sd(PoblacionM$Purchase)
+sdPromMuestraM <- sd(muestraM)
+
+```
+Creamos los filtros para las muestras de genero por Masculino y Femenino. En el dataframe se encuentran como masculino M y femenino F
+obtenemos tambien el promedio y la desviación estandar de cada muestra.
+
+
+Estos son los datos para la poblacion y muestra Femenina
+```{r}
+cat("La muestra femenina es:",muestraF)
+#cat("La población femenina es:",PoblacionF$Purchase)
+cat("\nEl promedio de la población femenina es:",comprasPromF)
+cat("\nEl promedio de la muestra femenina es:",PromMuestraF)
+cat("\nLa desviación estandar de la población femenina es:",sdcompraspromF)
+cat("\nLa desviación estandar de la muestra femenina es:",sdPromMuestraF)
+
+```
+Estos son los datos para la poblacion y muestra Masculina
+
+```{r}
+
+cat("La muestra masculina es:",muestraM)
+#cat("La población femenina es:",PoblacionF$Purchase)
+cat("\nEl promedio de la población masculina es:",ComprasPromM)
+cat("\nEl promedio de la muestra masculina es:",PromMMuestra)
+cat("\nLa desviación estandar de la población masculina es:",sdcompraspromM)
+cat("\nLa desviación estandar de la muestra masculina es:",sdPromMuestraM)
+
+```
+
+La hipotesis que platearemos es si hay diferencia entre ambas poblaciones por lo tanto se plantea que H0:μ1-μ2 != media
+
+la hipotesis alternativa se plantearia como
+H1:μ1-μ2 = media
+
+```{r}
+
+z3B <- ((PromMMuestra-PromMuestraF))/(sqrt(((sdPromMuestraM*sdPromMuestraM)/120)+((sdPromMuestraF*sdPromMuestraF)/120)))
+z3B
+
+pnorm(z3B)
+```
+
+Con un nivel de significancia del 5% se puede decir que la diferencia entre el promedio de gastos masculino y el promedio de compras femenino es diferente por lo tanto la hipotesis H0 es correcta y se puede decir que la 
+
+## Punto C
+
+Calcularemos un intervalo de confianza de una cola para las varianzas de la muestra de compras masculino y femenino.
+```{r}
+
+var.test(c(sdcompraspromM,sdcompraspromF)) 
+```
+
+
+## Punto D
+
+Tenemos como hipotenis nula que la igualdad de las varianzas de las compras de hombres y mujeres.
+H0:sμ1 = sμ2
+como hipotesis alternativa se tiene que son diferentes.
+H1:sμ1 != sμ2
+
+```{r}
+
+PruebaHipVarianzas <- ((sdcompraspromM*sdcompraspromM)/(sdcompraspromF*sdcompraspromF))
+
+PruebaHipVarianzas
+
+gradosLibertad <- 119/119
+
+valorCritico <- 1.35
+valorCritico
+
+```
+Con los valores del valor critico que equivale a 1.35 y el valor del estadistico de prueba equivale a 0.99291 se concluye que como el estadistico es menor que el valor critico se rechaza la hipotesis nula.
+Por lo tanto la hipotesis alternativa es verdadera entonces la varianza de ambos son diferentes
