@@ -44,6 +44,7 @@ muestra=sample(1:nrow(Blackfriday),size=n,replace=FALSE)
 #Finalmente relacionamos nuestra muestra con los datos obtenidos del excel:
 datosfinales = Blackfriday[muestra, ]
 datosfinales
+
 ```
  
 ## Punto B
@@ -193,6 +194,13 @@ cat("la asimetria da :",asimetria)
 ```
 Lo cual nos indica que tiene un sesgo muy pequeño hacia la derecha 
 
+```{r}
+plot(datosfinales$Purchase, dnorm(datosfinales$Purchase, mean = mean(datosfinales$Purchase), sd = sd(datosfinales$Purchase)), type = "l",
+     ylim = c(0, 0.0001), ylab = "", lwd = 2, col = "red")
+
+ x=dnorm(datosfinales$Purchase, mean = mean(datosfinales$Purchase), sd = sd(datosfinales$Purchase))
+x
+```
 
 # Actividad 2
 # Actividad 3 
