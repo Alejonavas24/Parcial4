@@ -298,7 +298,7 @@ Calcularemos un intervalo de confianza de una cola para las varianzas de la mues
 if (!require('devtools')) install.packages('devtools')
 devtools::install_github('fhernanb/stests', force=TRUE)
 
-var.test(c(sdcompraspromM,sdcompraspromF)) 
+stests::var.test(c(sdcompraspromM,sdcompraspromF)) 
 ```
 
 
