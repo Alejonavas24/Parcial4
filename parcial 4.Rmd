@@ -287,7 +287,7 @@ Con un nivel de significancia del 5% se puede decir que la diferencia entre el p
 Calcularemos un intervalo de confianza de una cola para las varianzas de la muestra de compras masculino y femenino.
 ```{r}
 
-var.test(c(sdcompraspromM,sdcompraspromF)) 
+stests::var.test(c(sdcompraspromM,sdcompraspromF)) 
 ```
 
 
