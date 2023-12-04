@@ -1,7 +1,7 @@
 
 ---
 title: "Parcial 4 "
-author: "Manuel Alejandro Navas, German Bernal Ladino, Alejandro Duarte, Jayson , Kevin Nivia"
+author: "Manuel Alejandro Navas, German Bernal Ladino, Alejandro Duarte, Jaisson Machado , Kevin Nivia"
 date: "28 de Noviembre de 2023"
 output: 
   html_document:
@@ -38,7 +38,7 @@ library(devtools, warn.conflicts = FALSE)
  Crear una muestra aleatoria de tamaño 120 
 ```{r}
 #primero leemos el excel y lo guardamos en un data frame en este caso :
-Blackfriday=data.frame(read_xlsx("C:/Users/alejo/Desktop/Blackfriday.xlsx"))
+Blackfriday=data.frame(read_xlsx("./Blackfriday.xlsx"))
 #Despues establecemos el tamaño de la muestra y con ese tamaño usamos la funcion sample:
 n=120
 muestra=sample(1:nrow(Blackfriday),size=n,replace=FALSE)
@@ -244,6 +244,123 @@ x
 ```
 
 # Actividad 2
+
+## Punto A
+
+Se carga la información de la base de datos
+IMPORTANTE: Cambiar la ruta en la que tenga su archivo Blackfriday.xlsx en caso de que no la lea el archivo
+data <- data.frame(read_xlsx("SU RUTA"))
+
+```{r}
+data <- data.frame(read_xlsx("./Blackfriday.xlsx"))
+### Se muestran dos formas de hacer el mismo procedimiento,
+### primero, creando la función con los datos que se piden,
+### segundo, usando una función que generá el nivel de confianza.
+
+### PRIMERA FORMA DE GENERAR EL NIVEL DE CONFIANZA
+
+### media = Media de la columna Purchase de los datos
+data_purchase <- data$Purchase
+media <- mean(data_purchase)
+
+### z = Cuantil de la distribucion normal estandar
+z <- 1.645
+
+### nivel_confianza del 90% = 0.90
+nivel_confianza <- 0.90
+
+### n = La cantidad de datos en la columna Purchase
+length(data$Purchase)
+n <- length(data$Purchase)
+
+### desviacion = desviacion estandar de la muestra
+sd(data$Purchase)
+desviacion <- sd(data$Purchase)
+
+### error_estandar = Desviacion estandar de la muestra
+error_estandar <- desviacion / sqrt(n)
+
+### limite_inferior = Calculo del limite inferior
+### limite_superior = Calculo del limite superior
+limite_inferior <- media - (z * error_estandar)
+limite_superior <- media + (z * error_estandar)
+
+### Se muestra en un dataframe todos los datos
+interval_m <- data.frame(n, media,nivel_confianza , desviacion, z, error_estandar, limite_inferior, limite_superior)
+interval_conf <- data.frame(media, nivel_confianza, limite_inferior, limite_superior)
+interval_conf
+
+
+### SEGUNDA FORMA DE GENERAR EL NIVEL DE CONFIANZA
+### Se hace uso de la función t.test()
+res <- t.test(x = data$Purchase, conf.level = 0.90)
+res
+
+```
+
+El intervalo de confianza al 90% para el promedio de la variable PURCHASE,
+se encuentra entre [9470.603, 9545.915].
+
+Efectivamente la media poblacional cae en el intervalo, pues la media de la muestra
+es 9508.259 y el intervalo es [9470.603, 9545.915].
+
+
+## PUNTO B
+
+Se muestran dos formas de hacer el mismo procedimiento,
+primero, creando la función con los datos que se piden,
+segundo, usando una función que generá el nivel de confianza.
+
+```{r}
+### Volvemos a inicializar los datos
+data <- data.frame(read_xlsx("./Blackfriday.xlsx"))
+
+### Se muestran en la columna Purchase únicamente los valores > 5000
+data <- data %>% filter(Purchase > 5000)
+
+### media = Media de la columna Purchase de los datos
+data_purchase <- data$Purchase
+media <- mean(data_purchase)
+
+### z = Cuantil de la distribucion normal estandar
+z <- 1.960
+
+### nivel_confianza del 95% = 0.95
+nivel_confianza <- 0.95
+
+### n = La cantidad de datos en la columna Purchase
+length(data$Purchase)
+n <- length(data$Purchase)
+
+### desviacion = desviacion estandar de la muestra
+sd(data$Purchase)
+desviacion <- sd(data$Purchase)
+
+### error_estandar = Desviacion estandar de la muestra
+error_estandar <- desviacion / sqrt(n)
+
+### limite_inferior = Calculo del limite inferior
+### limite_superior = Calculo del limite superior
+limite_inferior <- media - (z * error_estandar)
+limite_superior <- media + (z * error_estandar)
+
+### Cargar en un dataframe los datos necesarios para el calculo
+interval_m <- data.frame(n,media,nivel_confianza,desviacion,z,error_estandar,limite_inferior,limite_superior)
+interval_conf <- data.frame(media, nivel_confianza, limite_inferior, limite_superior)
+interval_conf
+
+### SEGUNDA FORMA DE GENERAR EL NIVEL DE CONFIANZA
+### Se hace uso de la función t.test()
+res <- t.test(x = data$Purchase, conf.level = 0.95)
+res
+
+```
+
+El intervalo de confianza al 95% para la proporcion de ventas superiores a US$5000
+es de [11104.31, 11181.21]; además la proporcion poblacional se encuentra en este intervalo
+
+
+
 # Actividad 3
 
 ## Punto A
