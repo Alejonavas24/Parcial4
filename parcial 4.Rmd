@@ -132,7 +132,7 @@ cat("El promedio de los datos es",Promedio)
 cat("los valores que mas se repiten o la moda es:",Moda)
 
 ```
-Esto significa que no hay un solo dato que se repita mas veces que los demas, esa es kla razon de que aparezcan varios datos como moda 
+Esto significa que no hay un solo dato que se repita mas veces que los demas, esa es la razon de que aparezcan varios datos como moda 
 
 Tambien podemos ver su grafico de dispercion 
 ```{r}
@@ -144,19 +144,61 @@ Ahora bien teniendo en cuenta que las primeras dos son variables cualitativas va
 Aca podemos ver una compraracion entre las medias de los income agrupados entre generos F Y M
 ```{r}
 MediEstado= table(datosfinales %>% group_by(Gender=Gender) %>% summarise(MediaAritmetica=mean(Income)))
-MediEstado
+
 barplot(MediEstado,
         main="Comparacion entre medias ingresos",          #C) Título principal     
         xlab="Agrupacion por generos",                   #D) Tíulo del eje X
         ylab="",                   #E) Título del eje Y
         legend = rownames(MediEstado),
          ylim = c(0, 1.5),
-        col=c("#EAFF8B","#BEFFF2")
+        col=c("#FFBEBE","#D7BEFF")
         )
 
 ```
 
 Con la grafica enterior podemos ver que no existe una gran diferencia en la media de ingresos por generos 
+
+```{r}
+MedianaEstado= table(datosfinales %>% group_by(Gender=Gender) %>% summarise(MediaAritmetica=median(Income)))
+
+barplot(MedianaEstado,
+        main="Comparacion entre mediana ingresos",          #C) Título principal     
+        xlab="Agrupacion por generos",                   #D) Tíulo del eje X
+        ylab="",                   #E) Título del eje Y
+        legend = rownames(MediEstado),
+         ylim = c(0, 1.5),
+        col=c("#EAFF8B","#BEFFF2")
+        )
+```
+Aasi como en la compaaracion anterior podemos ver que si separamos loss daatos entre generos la diferencia es casi nula 
+
+ahora teniendo en cuenta que no hay mucha diferencia cuando se agrupa en generos intentemos agruparlos por ciudades 
+
+```{r}
+MediEstado= table(datosfinales %>% group_by(City_Category=City_Category) %>% summarise(MediaAritmetica=mean(Income)))
+
+barplot(MediEstado,
+        main="Comparacion entre medias ingresos",          #C) Título principal     
+        xlab="Agrupacion por categoria de ciudad",                   #D) Tíulo del eje X
+        ylab="",                   #E) Título del eje Y
+        legend = rownames(MediEstado),
+         ylim = c(0, 1.5),
+        col=c("#FFBEBE","#FBFFAF","#AFFFC4")
+        )
+```
+```{r}
+MedianEstado= table(datosfinales %>% group_by(City_Category=City_Category) %>% summarise(MediaAritmetica=median(Income)))
+
+barplot(MedianEstado,
+        main="Comparacion entre mediana ingresos",          #C) Título principal     
+        xlab="Agrupacion por categoria de ciudad",                   #D) Tíulo del eje X
+        ylab="",                   #E) Título del eje Y
+        legend = rownames(MedianEstado),
+         ylim = c(0, 1.5),
+        col=c("#7B7E4E","#4E7E59","#7E4E4E")
+)
+```
+Al igual que agrupandolo por generos podemos ver como al ser agrupadas por categoria de ciudad los resultados dan casi igual lo cual nos indicaria que la muestra tomada anteriormente se podria pensar que tiene una distribucion nomrla o en su defecto muy similar a una distribuvion normal 
 ### Punto C 
 primero cacularemos la media y desviacion estandar de la poblacion general 
 
@@ -217,14 +259,14 @@ g1 = ggplot(data = data.frame(datosproblema),mapping = aes(x = datosproblema)) +
   scale_y_continuous(breaks = NULL)
 g1
 ```
-Ahora caalcularemos la courtosis :
+Ahora calcularemos la courtosis :
 
 ```{r}
 curti=kurtosis(datosfinales$Purchase)
 cat("la curtosis de la variable purchasae de la muestra aes: ",curti)
 
 ```
-Esta curtosis positiva nos indica que la distribucion es elevada, sin embargo el resultado es apenas notable comparado con la distribucion normal 
+En una distribución normal, la curtosis es 3. Un valor de curtosis muy cercano a cero, como 0.0069, indica que la distribución tiene colas más ligeras en comparación con una distribución normal
 
 Ahora calcularemos la asimetria con la funcion skewness
 ```{r}
@@ -233,7 +275,7 @@ asimetria=skewness(datosproblema)
 cat("la asimetria da :",asimetria)
 
 ```
-Lo cual nos indica que tiene un sesgo muy pequeño hacia la derecha 
+Un sesgo de 0 indica una simetría perfecta en la distribución. Un valor cercano a cero, como 0.0847, sugiere una simetría relativamente buena en la distribución. Valores cercanos a cero indican que la distribución está más cerca de ser simétrica.
 
 ```{r}
 plot(datosfinales$Purchase, dnorm(datosfinales$Purchase, mean = mean(datosfinales$Purchase), sd = sd(datosfinales$Purchase)), type = "l",
@@ -242,6 +284,9 @@ plot(datosfinales$Purchase, dnorm(datosfinales$Purchase, mean = mean(datosfinale
  x=dnorm(datosfinales$Purchase, mean = mean(datosfinales$Purchase), sd = sd(datosfinales$Purchase))
 x
 ```
+
+En resumen, según los valores obtenidos, la distribución parece ser bastante simétrica (debido al sesgo cercano a cero), pero tiene colas más ligeras que las de una distribución normal, lo que indica una distribución platicúrtica. Sin embargo, es importante recordar que estos valores por sí solos no proporcionan una conclusión definitiva sobre la normalidad de la distribución
+
 
 # Actividad 2
 
