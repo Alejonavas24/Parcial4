@@ -37,7 +37,7 @@ library(cowplot, warn.conflicts = FALSE)
  Crear una muestra aleatoria de tamaño 120 
 ```{r}
 #primero leemos el excel y lo guardamos en un data frame en este caso :
-Blackfriday=data.frame(read_xlsx("C:/Users/alejo/Desktop/Blackfriday.xlsx"))
+Blackfriday=data.frame(read_xlsx("C:/Users/alejo/OneDrive/Documents/Universidad/Probabilidad y estadistica fundamental/Parcial4/Blackfriday.xlsx"))
 #Despues establecemos el tamaño de la muestra y con ese tamaño usamos la funcion sample :
 n=120
 muestra=sample(1:nrow(Blackfriday),size=n,replace=FALSE)
@@ -195,4 +195,70 @@ Lo cual nos indica que tiene un sesgo muy pequeño hacia la derecha
 
 
 # Actividad 2
+
+##Punto c
+
+```{r}
+##Se establece primero la media y la desviciación tanto de hombres como de mujeres
+
+media_hombres <- mean(Blackfriday$Purchase[Blackfriday$Gender == "M"])
+desviacion_hombres <- sd(Blackfriday$Purchase[Blackfriday$Gender == "M"])
+
+
+media_mujeres <- mean(Blackfriday$Purchase[Blackfriday$Gender == "F"])
+desviacion_mujeres <- sd(Blackfriday$Purchase[Blackfriday$Gender == "F"])
+
+##Ya con esto se calcula el intervalo de confianza
+
+intervalo_confianza <- t.test(Blackfriday$Purchase[Blackfriday$Gender == "M"], Blackfriday$Purchase[Blackfriday$Gender == "F"], conf.level = 0.90)$conf.int
+
+intervalo_confianza
+
+```
+Por ello estamos 90% seguros de que la diferencia entre las compras promedio hechas por hombres y mujeres está entre 599.9853 y 767.992 dólares.
+
+##Punto d
+
+```{r}
+# Filtrar las compras de mujeres
+compras_mujeres <- Blackfriday$Purchase[Blackfriday$Gender == "F"]
+
+# Calcular el intervalo de confianza para la varianza
+n <- length(compras_mujeres)
+grados_libertad <- n - 1
+alpha <- 0.05  # Nivel de confianza del 95%
+
+# Calcular los cuantiles de la distribución chi-cuadrado
+quantil_inf <- qchisq(1 - alpha/2, df = grados_libertad)
+quantil_sup <- qchisq(alpha/2, df = grados_libertad)
+
+# Calcular el intervalo de confianza
+intervalo_confianza <- c((n - 1) * var(compras_mujeres) / quantil_inf, (n - 1) * var(compras_mujeres) / quantil_sup)
+
+# Mostrar el intervalo de confianza
+print(intervalo_confianza)
+
+```
+De esta forma podemos estar 95% seguros de que la totalidad de las compras echas por mujeres varian en el intervalo de 21.799.520 y 22.941.489 doláres
+```{r}
+# Almacenar el intervalo de confianza calculado en una variable
+intervalo_confianza_varianza <- c((n - 1) * var(compras_mujeres) / quantil_inf, (n - 1) * var(compras_mujeres) / quantil_sup)
+
+# Crear un vector con los datos a graficar
+datos_grafico <- c(var(compras_mujeres), intervalo_confianza_varianza[1], intervalo_confianza_varianza[2])
+
+# Etiquetas para las barras
+nombres_barras <- c("Estimación puntual", "Límite inferior", "Límite superior")
+
+# Crear el gráfico de barras
+barplot(datos_grafico, names.arg = nombres_barras, col = c("lightblue", "lightgreen", "lightgreen"),
+        ylim = c(0, max(intervalo_confianza_varianza)*1.2), main = "Intervalo de confianza para la varianza",
+        ylab = "Valores", xlab = "Varianza")
+
+# Agregar una leyenda
+legend("topright", legend = c("Estimación puntual", "Intervalo de confianza"), fill = c("lightblue", "lightgreen"))
+```
+
+
+
 # Actividad 3 
